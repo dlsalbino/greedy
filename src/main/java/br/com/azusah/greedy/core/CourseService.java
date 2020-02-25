@@ -5,7 +5,7 @@ import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
 import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,20 +13,23 @@ import org.springframework.stereotype.Service;
  * @since 2020.02.25
  */
 @Service
+@RequiredArgsConstructor
 public class CourseService implements ICourseServicePort {
 
-    @Autowired
-    private ICourseRepositoryPort courseRepository;
-
-    @Autowired
-    Mapper modelMapper;
+    private final ICourseRepositoryPort courseRepository;
+    private final Mapper modelMapper;
 
     @Override
-    public String create(CourseResource courseResource) {
+    public CourseResource create(CourseResource courseResource) {
         Course course = modelMapper.mapper().map(courseResource, Course.class);
         System.out.println("Wait while your course is created...");
-        courseRepository.create(course);
+        Course savedCourse = courseRepository.create(course);
         System.out.println("Course is created!");
-        return "created!";
+        return modelMapper.mapper().map(savedCourse, CourseResource.class);
+    }
+
+    @Override
+    public CourseResource getOne(String id) {
+        return null;
     }
 }

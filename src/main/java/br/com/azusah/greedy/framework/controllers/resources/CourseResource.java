@@ -1,6 +1,5 @@
 package br.com.azusah.greedy.framework.controllers.resources;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseResource {
 
-    @JsonProperty
+    private String id;
     private String title;
 
 }

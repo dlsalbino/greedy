@@ -8,5 +8,5 @@ import br.com.azusah.greedy.framework.repositories.entities.Course;
  */
 public interface ICourseRepositoryPort {
 
-    String create(Course course);
+    Course create(Course course);
 }

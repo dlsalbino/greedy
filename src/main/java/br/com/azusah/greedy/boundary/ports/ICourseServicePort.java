@@ -8,6 +8,7 @@ import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
  */
 public interface ICourseServicePort {
 
-    String create(CourseResource courseResource);
+    CourseResource create(CourseResource courseResource);
 
+    CourseResource getOne(String id);
 }

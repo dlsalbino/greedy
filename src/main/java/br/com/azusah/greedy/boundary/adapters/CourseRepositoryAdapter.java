@@ -17,10 +17,10 @@ public class CourseRepositoryAdapter implements ICourseRepositoryPort {
     private CourseMongoRepository courseMongoRepository;
 
     @Override
-    public String create(Course course) {
+    public Course create(Course course) {
         Course savedCourse = courseMongoRepository.save(course);
         System.out.println("Saved course: " + savedCourse.toString());
-        return "Saved!";
+        return savedCourse;
     }
 
 }
