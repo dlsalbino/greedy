@@ -1,6 +1,6 @@
 package br.com.azusah.greedy.framework.repositories;
 
-import br.com.azusah.greedy.domain.core.CourseBusiness;
+import br.com.azusah.greedy.framework.repositories.entities.Course;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
  * @since 2020.02.25
  */
 @Repository
-public interface CourseMongoRepository extends MongoRepository<CourseBusiness, String> {
+public interface CourseMongoRepository extends MongoRepository<Course, String> {
+
 }
