@@ -2,6 +2,7 @@ package br.com.azusah.greedy.core;
 
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
 import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
+import br.com.azusah.greedy.core.validators.InsertionRuleValidator;
 import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
@@ -21,19 +22,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CourseService implements ICourseServicePort {
 
-    private final ICourseRepositoryPort courseRepository;
     private final Mapper modelMapper;
+    private final ICourseRepositoryPort courseRepository;
+    private final InsertionRuleValidator insertionRuleValidator;
 
     @Override
-    public CourseResource create(CourseResource courseResource) {
-
-        try {
-            Course savedCourse = courseRepository.create(modelMapper.mapper().map(courseResource, Course.class));
+    public CourseResource insert(CourseResource courseResource) {
+        if (insertionRuleValidator.validateInsertion(courseResource)) {
+            Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseResource, Course.class));
             return modelMapper.mapper().map(savedCourse, CourseResource.class);
-        } catch (Exception e) {
+        } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something was wrong during creation.");
         }
-
     }
 
     @Override
@@ -62,7 +62,8 @@ public class CourseService implements ICourseServicePort {
         CourseResource courseFound = getOne(courseResource.getId());
 
         if (courseFound == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course with id: '" + courseResource.getId() + "' not found!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Course with id: '" + courseResource.getId() + "' was not found!");
         }
 
         courseFound.setTitle(courseResource.getTitle());
@@ -77,4 +78,23 @@ public class CourseService implements ICourseServicePort {
         Course updatedCourse = courseRepository.update(modelMapper.mapper().map(courseFound, Course.class));
         return modelMapper.mapper().map(updatedCourse, CourseResource.class);
     }
+
+    @Override
+    public String deleteInALogicalWay(String id) {
+        if (id == null || id.isEmpty() || id.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
+        }
+
+        Course course = courseRepository.getOne(id)
+                .map(c -> {
+                    c.setActive(false);
+                    courseRepository.update(c);
+                    return c;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Course with id: '" + id + "' was not found!"));
+
+        return "The course with id: '" + course.getId() + "'  was deleted.";
+    }
+
 }

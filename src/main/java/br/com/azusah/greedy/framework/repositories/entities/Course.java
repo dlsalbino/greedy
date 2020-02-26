@@ -31,5 +31,6 @@ public class Course {
     private AudienceType audience;
     private Location location;
     private String url;
+    private boolean active = true;
 
 }

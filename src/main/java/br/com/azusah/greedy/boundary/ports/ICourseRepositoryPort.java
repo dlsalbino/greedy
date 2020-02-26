@@ -11,11 +11,12 @@ import java.util.Optional;
  */
 public interface ICourseRepositoryPort {
 
-    Course create(Course course);
+    Course insert(Course course);
 
     Optional<Course> getOne(String id);
 
     List<Course> getAll();
 
     Course update(Course course);
+
 }

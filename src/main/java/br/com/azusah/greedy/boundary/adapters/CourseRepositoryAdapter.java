@@ -3,7 +3,7 @@ package br.com.azusah.greedy.boundary.adapters;
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
 import br.com.azusah.greedy.framework.repositories.CourseMongoRepository;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.Optional;
  * @since 2020.02.25
  */
 @Service
+@RequiredArgsConstructor
 public class CourseRepositoryAdapter implements ICourseRepositoryPort {
 
-    @Autowired
-    private CourseMongoRepository courseMongoRepository;
+    private final CourseMongoRepository courseMongoRepository;
 
     @Override
-    public Course create(Course course) {
-        return courseMongoRepository.save(course);
+    public Course insert(Course course) {
+        return courseMongoRepository.insert(course);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CourseRepositoryAdapter implements ICourseRepositoryPort {
 
     @Override
     public List<Course> getAll() {
-        return courseMongoRepository.findAll();
+        return courseMongoRepository.findCourseByActiveTrue();
     }
 
     @Override

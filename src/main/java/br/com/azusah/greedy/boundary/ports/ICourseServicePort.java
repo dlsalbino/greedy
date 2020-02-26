@@ -10,11 +10,13 @@ import java.util.List;
  */
 public interface ICourseServicePort {
 
-    CourseResource create(CourseResource courseResource);
+    CourseResource insert(CourseResource courseResource);
 
     CourseResource getOne(String id);
 
     List<CourseResource> getAll();
 
     CourseResource update(CourseResource courseResource);
+
+    String deleteInALogicalWay(String id);
 }
