@@ -3,11 +3,13 @@ package br.com.azusah.greedy.framework.controllers.resources;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 /**
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
@@ -20,10 +22,31 @@ public class CourseResource {
 
     private String id;
 
-    @NotNull
     @NotBlank
-    @NotEmpty
     @Min(3)
     private String title;
+
+    @NotBlank
+    private String modality;
+
+    private String description;
+
+    @Future
+    private LocalDate start;
+
+    @Future
+    private LocalDate finish;
+
+    @NotBlank
+    private String instructor;
+
+    @NotBlank
+    private String audience;
+
+    @Valid
+    private LocationResource location;
+
+    @URL
+    private String url;
 
 }
