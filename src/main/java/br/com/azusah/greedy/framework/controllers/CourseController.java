@@ -2,6 +2,7 @@ package br.com.azusah.greedy.framework.controllers;
 
 import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
 import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/courses")
 @RequiredArgsConstructor
+@Tag(name = "course", description = "A course resource.")
 public class CourseController {
 
     private final ICourseServicePort courseServicePort;
