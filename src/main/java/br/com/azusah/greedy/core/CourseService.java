@@ -2,10 +2,12 @@ package br.com.azusah.greedy.core;
 
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
 import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
+import br.com.azusah.greedy.core.exceptions.CourseException;
 import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,15 +23,20 @@ public class CourseService implements ICourseServicePort {
 
     @Override
     public CourseResource create(CourseResource courseResource) {
-        Course course = modelMapper.mapper().map(courseResource, Course.class);
-        System.out.println("Wait while your course is created...");
-        Course savedCourse = courseRepository.create(course);
-        System.out.println("Course is created!");
-        return modelMapper.mapper().map(savedCourse, CourseResource.class);
+
+        try {
+            Course savedCourse = courseRepository.create(modelMapper.mapper().map(courseResource, Course.class));
+            return modelMapper.mapper().map(savedCourse, CourseResource.class);
+        } catch (Exception e) {
+            throw new CourseException("Something was wrong during creation.", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @Override
     public CourseResource getOne(String id) {
-        return null;
+        return courseRepository.getOne(id)
+                .map(c -> modelMapper.mapper().map(c, CourseResource.class))
+                .orElse(null);
     }
 }
