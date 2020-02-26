@@ -15,4 +15,6 @@ public interface ICourseServicePort {
     CourseResource getOne(String id);
 
     List<CourseResource> getAll();
+
+    CourseResource update(CourseResource courseResource);
 }

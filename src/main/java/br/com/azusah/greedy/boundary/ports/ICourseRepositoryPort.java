@@ -16,4 +16,6 @@ public interface ICourseRepositoryPort {
     Optional<Course> getOne(String id);
 
     List<Course> getAll();
+
+    Course update(Course course);
 }

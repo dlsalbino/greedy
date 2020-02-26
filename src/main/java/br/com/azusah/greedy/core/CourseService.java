@@ -50,4 +50,31 @@ public class CourseService implements ICourseServicePort {
                 .map(c -> modelMapper.mapper().map(c, CourseResource.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CourseResource update(CourseResource courseResource) {
+        if (courseResource.getId() == null
+                || courseResource.getId().isEmpty()
+                || courseResource.getId().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
+        }
+
+        CourseResource courseFound = getOne(courseResource.getId());
+
+        if (courseFound == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course with id: '" + courseResource.getId() + "' not found!");
+        }
+
+        courseFound.setTitle(courseResource.getTitle());
+        courseFound.setModality(courseResource.getModality());
+        courseFound.setStart(courseResource.getStart());
+        courseFound.setFinish(courseResource.getFinish());
+        courseFound.setInstructor(courseResource.getInstructor());
+        courseFound.setAudience(courseResource.getAudience());
+        courseFound.setLocation(courseResource.getLocation());
+        courseFound.setUrl(courseResource.getUrl());
+
+        Course updatedCourse = courseRepository.update(modelMapper.mapper().map(courseFound, Course.class));
+        return modelMapper.mapper().map(updatedCourse, CourseResource.class);
+    }
 }

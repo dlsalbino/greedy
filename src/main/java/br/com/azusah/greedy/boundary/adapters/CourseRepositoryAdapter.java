@@ -34,4 +34,9 @@ public class CourseRepositoryAdapter implements ICourseRepositoryPort {
         return courseMongoRepository.findAll();
     }
 
+    @Override
+    public Course update(Course course) {
+        return courseMongoRepository.save(course);
+    }
+
 }
