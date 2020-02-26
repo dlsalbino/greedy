@@ -2,6 +2,7 @@ package br.com.azusah.greedy.boundary.ports;
 
 import br.com.azusah.greedy.framework.repositories.entities.Course;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -13,4 +14,6 @@ public interface ICourseRepositoryPort {
     Course create(Course course);
 
     Optional<Course> getOne(String id);
+
+    List<Course> getAll();
 }

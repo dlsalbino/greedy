@@ -6,6 +6,7 @@ import br.com.azusah.greedy.framework.repositories.entities.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,11 @@ public class CourseRepositoryAdapter implements ICourseRepositoryPort {
     @Override
     public Optional<Course> getOne(String id) {
         return courseMongoRepository.findById(id);
+    }
+
+    @Override
+    public List<Course> getAll() {
+        return courseMongoRepository.findAll();
     }
 
 }

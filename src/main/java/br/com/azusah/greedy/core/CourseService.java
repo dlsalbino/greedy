@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
  * @since 2020.02.25
@@ -38,5 +41,13 @@ public class CourseService implements ICourseServicePort {
         return courseRepository.getOne(id)
                 .map(c -> modelMapper.mapper().map(c, CourseResource.class))
                 .orElse(null);
+    }
+
+    @Override
+    public List<CourseResource> getAll() {
+        return courseRepository.getAll()
+                .stream()
+                .map(c -> modelMapper.mapper().map(c, CourseResource.class))
+                .collect(Collectors.toList());
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
@@ -41,6 +42,12 @@ public class CourseController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course with id: " + id + " not found!");
         }
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    List<CourseResource> getAll() {
+        return courseServicePort.getAll();
     }
 
 }
