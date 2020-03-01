@@ -42,9 +42,7 @@ public class CourseController {
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    CourseResponse insert(@Parameter(description = "Course to insert. Must have valid fields.",
-            required = true, schema = @Schema(implementation = CourseRequest.class))
-                          @Valid @RequestBody final CourseRequest courseRequest) {
+    CourseResponse insert(@Valid @RequestBody final CourseRequest courseRequest) {
         return courseServicePort.insert(courseRequest);
     }
 
@@ -56,9 +54,10 @@ public class CourseController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResponse.class)))),
             @ApiResponse(responseCode = "404", description = "Resource not found with given id.")
     })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    CourseResponse getOne(@PathVariable final String id) {
+    CourseResponse getOne(@Parameter(description = "Id of the course to be obtained. Cannot be empty.", required = true)
+                          @PathVariable final String id) {
         CourseResponse courseResponse = courseServicePort.getOne(id);
         if (courseResponse != null) {
             return courseResponse;
@@ -74,7 +73,7 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "List of resources",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResponse.class))))
     })
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     List<CourseResponse> getAll() {
         return courseServicePort.getAll();
@@ -84,14 +83,15 @@ public class CourseController {
             description = "Given a valid id, and a valid body, updates the object on database and returns it.",
             tags = {"contact"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "resource created on database",
+            @ApiResponse(responseCode = "200", description = "successful updated ",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResponse.class)))),
             @ApiResponse(responseCode = "400", description = "Some data on resource body is invalid."),
             @ApiResponse(responseCode = "404", description = "Resource not found with given id.")
     })
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    CourseResponse update(@PathVariable final String id, @RequestBody final CourseRequest courseRequest) {
+    CourseResponse update(@Parameter(description = "Id of the course to be updated. Cannot be empty.", required = true)
+                          @PathVariable final String id, @RequestBody final CourseRequest courseRequest) {
         return courseServicePort.update(id, courseRequest);
     }
 
@@ -99,14 +99,14 @@ public class CourseController {
             description = "Given a valid id, returns a message of success on deleting processes.",
             tags = {"contact"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "resource created on database",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResponse.class)))),
+            @ApiResponse(responseCode = "200", description = "resource deleted on database"),
             @ApiResponse(responseCode = "404", description = "Resource not found with given id.")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    String delete(@PathVariable final String id) {
-        return courseServicePort.deleteInALogicalWay(id);
+    void delete(@Parameter(description = "Id of the course to be deleted. Cannot be empty.", required = true)
+                  @PathVariable final String id) {
+        courseServicePort.deleteInALogicalWay(id);
     }
 
 }
