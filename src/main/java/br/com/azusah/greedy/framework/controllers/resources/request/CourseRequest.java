@@ -2,9 +2,9 @@ package br.com.azusah.greedy.framework.controllers.resources.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.Valid;
@@ -17,17 +17,11 @@ import java.time.LocalDate;
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
  * @since 2020.02.25
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CourseRequest {
-
-    @Schema(description = "Unique identifier of the Course.",
-            example = "5e56c653ca6a004f9b007151",
-            required = false
-    )
-    private String id;
 
     @Schema(description = "The name of the course.",
             example = "Spring Boot with OpenApi Documentation. :-P",
