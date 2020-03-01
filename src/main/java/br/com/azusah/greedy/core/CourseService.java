@@ -3,7 +3,7 @@ package br.com.azusah.greedy.core;
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
 import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
 import br.com.azusah.greedy.core.validators.InsertionRuleValidator;
-import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
+import br.com.azusah.greedy.framework.controllers.resources.request.CourseResource;
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
 import lombok.RequiredArgsConstructor;

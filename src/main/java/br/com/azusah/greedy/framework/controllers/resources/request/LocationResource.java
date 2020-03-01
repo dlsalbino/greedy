@@ -1,4 +1,4 @@
-package br.com.azusah.greedy.framework.controllers.resources;
+package br.com.azusah.greedy.framework.controllers.resources.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

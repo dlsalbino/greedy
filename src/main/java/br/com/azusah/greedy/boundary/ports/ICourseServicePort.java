@@ -1,6 +1,6 @@
 package br.com.azusah.greedy.boundary.ports;
 
-import br.com.azusah.greedy.framework.controllers.resources.CourseResource;
+import br.com.azusah.greedy.framework.controllers.resources.request.CourseResource;
 
 import java.util.List;
 
