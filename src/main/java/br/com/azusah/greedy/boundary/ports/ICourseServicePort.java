@@ -1,6 +1,7 @@
 package br.com.azusah.greedy.boundary.ports;
 
-import br.com.azusah.greedy.framework.controllers.resources.request.CourseResource;
+import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
+import br.com.azusah.greedy.framework.controllers.resources.response.CourseResponse;
 
 import java.util.List;
 
@@ -10,13 +11,13 @@ import java.util.List;
  */
 public interface ICourseServicePort {
 
-    CourseResource insert(CourseResource courseResource);
+    CourseResponse insert(CourseRequest courseRequest);
 
-    CourseResource getOne(String id);
+    CourseResponse getOne(String id);
 
-    List<CourseResource> getAll();
+    List<CourseResponse> getAll();
 
-    CourseResource update(CourseResource courseResource);
+    CourseResponse update(String id, CourseRequest courseRequest);
 
     String deleteInALogicalWay(String id);
 }

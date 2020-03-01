@@ -1,6 +1,6 @@
 package br.com.azusah.greedy.core.validators;
 
-import br.com.azusah.greedy.framework.controllers.resources.request.CourseResource;
+import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
 import br.com.azusah.greedy.framework.repositories.entities.enums.ModalityType;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InsertionRuleValidator {
 
-    public boolean validateInsertion(CourseResource course) {
+    public boolean validateInsertion(CourseRequest course) {
         if (course.getModality().equalsIgnoreCase(ModalityType.PRESENTIAL.toString())
                 && course.getLocation() != null) {
             return true;

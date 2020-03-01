@@ -1,7 +1,8 @@
 package br.com.azusah.greedy.framework.controllers;
 
 import br.com.azusah.greedy.boundary.ports.ICourseServicePort;
-import br.com.azusah.greedy.framework.controllers.resources.request.CourseResource;
+import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
+import br.com.azusah.greedy.framework.controllers.resources.response.CourseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -36,23 +37,23 @@ public class CourseController {
             tags = {"contact"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "resource created on database",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResource.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseResponse.class)))),
             @ApiResponse(responseCode = "400", description = "Some data on resource body is invalid.")
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    CourseResource insert(@Parameter(description = "Course to insert. Must have valid fields.",
-            required = true, schema = @Schema(implementation = CourseResource.class))
-                          @Valid @RequestBody CourseResource courseResource) {
-        return courseServicePort.insert(courseResource);
+    CourseResponse insert(@Parameter(description = "Course to insert. Must have valid fields.",
+            required = true, schema = @Schema(implementation = CourseRequest.class))
+                         @Valid @RequestBody CourseRequest courseRequest) {
+        return courseServicePort.insert(courseRequest);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    CourseResource getOne(@PathVariable String id) {
-        CourseResource courseResource = courseServicePort.getOne(id);
-        if (courseResource != null) {
-            return courseResource;
+    CourseResponse getOne(@PathVariable String id) {
+        CourseResponse courseResponse = courseServicePort.getOne(id);
+        if (courseResponse != null) {
+            return courseResponse;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course with id: " + id + " not found!");
         }
@@ -60,14 +61,14 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    List<CourseResource> getAll() {
+    List<CourseResponse> getAll() {
         return courseServicePort.getAll();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    CourseResource update(@RequestBody CourseResource courseResource) {
-        return courseServicePort.update(courseResource);
+    CourseResponse update(@PathVariable String id, @RequestBody CourseRequest courseRequest) {
+        return courseServicePort.update(id, courseRequest);
     }
 
     @DeleteMapping("/{id}")

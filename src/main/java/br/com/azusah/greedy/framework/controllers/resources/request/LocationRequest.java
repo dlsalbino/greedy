@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class LocationResource {
+public class LocationRequest {
 
     @NotBlank
     private String country;

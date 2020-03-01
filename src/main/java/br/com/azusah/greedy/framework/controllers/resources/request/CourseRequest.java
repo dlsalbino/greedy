@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class CourseResource {
+public class CourseRequest {
 
     @Schema(description = "Unique identifier of the Course.",
             example = "5e56c653ca6a004f9b007151",
@@ -83,7 +83,7 @@ public class CourseResource {
             required = true
     )
     @Valid
-    private LocationResource location;
+    private LocationRequest location;
 
     @Schema(description = "For ONLINE courses, the URL where it can be found.",
             example = "http://udemy.com/id-of-the-course",
