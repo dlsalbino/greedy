@@ -26,4 +26,6 @@ The app will be available under the follow address/port:
 
 And you can use the follow URL to see the available services:
 `http://localhost:8080/swagger-ui.html`.
-This link exists merely because we are using the [openapi](https://github.com/springdoc/springdoc-openapi) library 
+This link exists merely because we are using the [openapi](https://github.com/springdoc/springdoc-openapi) library.
+Now, you can see in your browser something like this:
+![swagger-ui](src/main/resources/docs/swagger.png)
