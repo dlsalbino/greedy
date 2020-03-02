@@ -19,5 +19,5 @@ public interface ICourseServicePort {
 
     CourseResponse update(String id, CourseRequest courseRequest);
 
-    String deleteInALogicalWay(String id);
+    void deleteInALogicalWay(String id);
 }

@@ -11,7 +11,7 @@ REST API application using Hexagonal Architecture concepts.
 
 - [x] ~~Hexagonal Architecture~~
 - [ ] S.O.L.I.D. Principles
-- [x] ~~REST API Good Practices~~
+- [x] ~~REST API Best Practices~~
 - [x] ~~API Documentation with OpenAPI~~
 - [ ] Unit Tests with JUnit 5
 - [ ] Security with JWT

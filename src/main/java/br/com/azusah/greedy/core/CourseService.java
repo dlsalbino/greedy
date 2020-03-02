@@ -81,13 +81,17 @@ public class CourseService implements ICourseServicePort {
     }
 
     @Override
-    public String deleteInALogicalWay(String id) {
+    public void deleteInALogicalWay(String id) {
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
         }
 
-        Course course = courseRepository.getOne(id)
+        courseRepository.getOne(id)
                 .map(c -> {
+                    if (!c.isActive())
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Course with id: '" + id + "' is already deleted!");
+
                     c.setActive(false);
                     courseRepository.update(c);
                     return c;
@@ -95,7 +99,6 @@ public class CourseService implements ICourseServicePort {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Course with id: '" + id + "' was not found!"));
 
-        return "The course with id: '" + course.getId() + "'  was deleted.";
     }
 
 }

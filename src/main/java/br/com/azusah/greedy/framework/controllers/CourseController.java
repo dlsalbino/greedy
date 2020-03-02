@@ -105,7 +105,7 @@ public class CourseController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@Parameter(description = "Id of the course to be deleted. Cannot be empty.", required = true)
-                  @PathVariable final String id) {
+                @PathVariable final String id) {
         courseServicePort.deleteInALogicalWay(id);
     }
 
