@@ -4,6 +4,9 @@ import br.com.azusah.greedy.framework.controllers.resources.request.CourseReques
 import br.com.azusah.greedy.framework.repositories.entities.enums.ModalityType;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
  * @since 2020.02.26
@@ -11,18 +14,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class InsertionRuleValidator {
 
-    public boolean validateInsertion(CourseRequest course) {
-        if (course.getModality().equalsIgnoreCase(ModalityType.PRESENTIAL.toString())
-                && course.getLocation() != null) {
-            return true;
-        }
-        if (course.getModality().equalsIgnoreCase(ModalityType.ONLINE.toString())
-                && course.getUrl() != null && course.getLocation() == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public List<String> validate(CourseRequest course) {
+        List<String> errors = new ArrayList<>();
 
+        if (course.getModality().equalsIgnoreCase(ModalityType.PRESENTIAL.toString())
+                && course.getLocation() == null) {
+            errors.add("Presential courses needs a location");
+        }
+
+        if (course.getModality().equalsIgnoreCase(ModalityType.ONLINE.toString())
+                && course.getUrl() == null) {
+            errors.add("Online courses needs a url");
+        }
+
+        if (course.getModality().equalsIgnoreCase(ModalityType.ONLINE.toString())
+                && course.getLocation() != null) {
+            errors.add("Online courses cannot have an location");
+        }
+
+        if (course.getFinish().isBefore(course.getStart())) {
+            errors.add("The start date cannot be after finish date");
+        }
+
+        return errors;
+    }
 
 }

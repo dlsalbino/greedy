@@ -30,12 +30,13 @@ public class CourseService implements ICourseServicePort {
 
     @Override
     public CourseResponse insert(CourseRequest courseRequest) {
-        if (insertionRuleValidator.validateInsertion(courseRequest)) {
-            Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseRequest, Course.class));
-            return modelMapper.mapper().map(savedCourse, CourseResponse.class);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something was wrong during creation.");
-        }
+        //TODO: Improve the way of validation it.
+        List<String> errors = insertionRuleValidator.validate(courseRequest);
+        if (!errors.isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.toString());
+
+        Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseRequest, Course.class));
+        return modelMapper.mapper().map(savedCourse, CourseResponse.class);
     }
 
     @Override
