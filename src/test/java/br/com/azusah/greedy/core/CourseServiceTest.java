@@ -1,7 +1,6 @@
 package br.com.azusah.greedy.core;
 
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
-import br.com.azusah.greedy.core.validators.InsertionRuleValidator;
 import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
 import br.com.azusah.greedy.framework.controllers.resources.response.CourseResponse;
 import br.com.azusah.greedy.framework.mappers.Mapper;
@@ -35,9 +34,6 @@ class CourseServiceTest {
 
     @Mock
     private ICourseRepositoryPort courseRepository;
-
-    @Mock
-    private InsertionRuleValidator insertionRuleValidator;
 
     @Test
     void shouldToInsertAnCourse() {
