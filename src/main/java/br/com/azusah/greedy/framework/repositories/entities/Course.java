@@ -3,6 +3,7 @@ package br.com.azusah.greedy.framework.repositories.entities;
 import br.com.azusah.greedy.framework.repositories.entities.enums.AudienceType;
 import br.com.azusah.greedy.framework.repositories.entities.enums.ModalityType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
  * @since 2020.02.25
  */
 @Data
+@Builder
 @Document
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,17 +5,20 @@ import br.com.azusah.greedy.core.validators.InsertionRuleValidator;
 import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
 import br.com.azusah.greedy.framework.controllers.resources.response.CourseResponse;
 import br.com.azusah.greedy.framework.mappers.Mapper;
-import org.junit.jupiter.api.Disabled;
+import br.com.azusah.greedy.framework.repositories.entities.Course;
+import br.com.azusah.greedy.framework.repositories.entities.enums.AudienceType;
+import br.com.azusah.greedy.framework.repositories.entities.enums.ModalityType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +28,10 @@ class CourseServiceTest {
     public CourseService courseService;
 
     @Mock
-    private Mapper modelMapper;
+    private Mapper mapper;
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @Mock
     private ICourseRepositoryPort courseRepository;
@@ -33,11 +39,10 @@ class CourseServiceTest {
     @Mock
     private InsertionRuleValidator insertionRuleValidator;
 
-    @Test @Disabled
-    void insert() {
+    @Test
+    void shouldToInsertAnCourse() {
 
         //given
-
         CourseRequest courseRequest = CourseRequest.builder()
                 .title("Java Functional Approach")
                 .description("A new course of Java")
@@ -61,37 +66,51 @@ class CourseServiceTest {
                 .audience("ANYONE")
                 .build();
 
-        //when
-        when(courseService.insert(courseRequest)).thenReturn(courseResponse);
-
-        //then
-        assertThat(courseResponse)
-                .isEqualToComparingOnlyGivenFields(courseRequest, "title", "description");
-
-    }
-
-    @Test @Disabled
-    void getOne() {
-
-        //given
-        String id = "xyz";
-        CourseResponse courseResponse = CourseResponse.builder()
-                .id("xyz")
+        Course courseInput = Course.builder()
                 .title("Java Functional Approach")
                 .description("A new course of Java")
-                .modality("ONLINE")
+                .modality(ModalityType.ONLINE)
                 .start(LocalDate.of(2020, 03, 20))
                 .finish(LocalDate.of(2020, 03, 20))
                 .url("http://udemy.com")
                 .instructor("James Gosling")
-                .audience("ANYONE")
+                .audience(AudienceType.ANYONE)
+                .build();
+
+        Course courseOutput = Course.builder()
+                .id("xyz")
+                .title("Java Functional Approach")
+                .description("A new course of Java")
+                .modality(ModalityType.ONLINE)
+                .start(LocalDate.of(2020, 03, 20))
+                .finish(LocalDate.of(2020, 03, 20))
+                .url("http://udemy.com")
+                .instructor("James Gosling")
+                .audience(AudienceType.ANYONE)
                 .build();
 
         //when
-        when(courseService.getOne(id)).thenReturn(courseResponse);
+        when(courseRepository.insert(any(Course.class))).thenReturn(courseOutput);
+        when(mapper.mapper()).thenReturn(modelMapper);
+        when(modelMapper.map(any(CourseRequest.class), any())).thenReturn(courseInput);
+        when(modelMapper.map(any(Course.class), any())).thenReturn(courseResponse);
+        when(courseService.insert(courseRequest)).thenReturn(courseResponse);
+
+        CourseResponse saved = courseService.insert(courseRequest);
 
         //then
-        assertThat(courseResponse).isNotNull();
+        assertThat(saved)
+                .isNotNull()
+                .isEqualTo(courseResponse);
+
+    }
+
+    @Test
+    void getOne() {
+
+        //given
+        //when
+        //then
 
     }
 

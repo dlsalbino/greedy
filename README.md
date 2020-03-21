@@ -1,4 +1,4 @@
-# greedy
+# greedy (W.I.P>)
 REST API application using Hexagonal Architecture concepts.
 
 ## About the Application
