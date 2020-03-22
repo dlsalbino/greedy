@@ -16,8 +16,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,8 +70,24 @@ class CourseServiceTest {
     void getOne() {
 
         //given
+        String id = "507f191e810c19729de860ea";
+        CourseResponse courseResponse = CourseResponseBuilder.defaultCourseResponse().build();
+
+        Course course = CourseBuilder.defaultCourse().withId("507f191e810c19729de860ea").build();
+
         //when
+        when(courseRepository.getOne(anyString())).thenReturn(Optional.of(course));
+        when(mapper.mapper()).thenReturn(modelMapper);
+        when(modelMapper.map(any(Course.class), any())).thenReturn(courseResponse);
+        when(courseService.getOne(id)).thenReturn(courseResponse);
+
+        CourseResponse courseFound = courseService.getOne(id);
+
         //then
+        assertThat(courseFound)
+                .isNotNull()
+                .isInstanceOf(CourseResponse.class)
+                .isEqualToComparingFieldByField(courseResponse);
 
     }
 
