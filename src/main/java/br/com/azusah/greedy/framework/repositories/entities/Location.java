@@ -2,6 +2,7 @@ package br.com.azusah.greedy.framework.repositories.entities;
 
 import br.com.azusah.greedy.framework.repositories.entities.enums.StateType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
  * @since 2020.02.26
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Location {

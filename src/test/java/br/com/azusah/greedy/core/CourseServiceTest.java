@@ -1,20 +1,20 @@
 package br.com.azusah.greedy.core;
 
 import br.com.azusah.greedy.boundary.ports.ICourseRepositoryPort;
+import br.com.azusah.greedy.core.builders.CourseBuilder;
+import br.com.azusah.greedy.core.builders.CourseRequestBuilder;
+import br.com.azusah.greedy.core.builders.CourseResponseBuilder;
+import br.com.azusah.greedy.core.validators.InsertionRuleValidator;
 import br.com.azusah.greedy.framework.controllers.resources.request.CourseRequest;
 import br.com.azusah.greedy.framework.controllers.resources.response.CourseResponse;
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
-import br.com.azusah.greedy.framework.repositories.entities.enums.AudienceType;
-import br.com.azusah.greedy.framework.repositories.entities.enums.ModalityType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-
-import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,55 +35,17 @@ class CourseServiceTest {
     @Mock
     private ICourseRepositoryPort courseRepository;
 
+    @Mock
+    private InsertionRuleValidator insertionRuleValidator;
+
     @Test
-    void shouldToInsertAnCourse() {
+    void shouldInsertACourse() {
 
         //given
-        CourseRequest courseRequest = CourseRequest.builder()
-                .title("Java Functional Approach")
-                .description("A new course of Java")
-                .modality("ONLINE")
-                .start(LocalDate.of(2020, 03, 20))
-                .finish(LocalDate.of(2020, 03, 20))
-                .url("http://udemy.com")
-                .instructor("James Gosling")
-                .audience("ANYONE")
-                .build();
-
-        CourseResponse courseResponse = CourseResponse.builder()
-                .id("xyz")
-                .title("Java Functional Approach")
-                .description("A new course of Java")
-                .modality("ONLINE")
-                .start(LocalDate.of(2020, 03, 20))
-                .finish(LocalDate.of(2020, 03, 20))
-                .url("http://udemy.com")
-                .instructor("James Gosling")
-                .audience("ANYONE")
-                .build();
-
-        Course courseInput = Course.builder()
-                .title("Java Functional Approach")
-                .description("A new course of Java")
-                .modality(ModalityType.ONLINE)
-                .start(LocalDate.of(2020, 03, 20))
-                .finish(LocalDate.of(2020, 03, 20))
-                .url("http://udemy.com")
-                .instructor("James Gosling")
-                .audience(AudienceType.ANYONE)
-                .build();
-
-        Course courseOutput = Course.builder()
-                .id("xyz")
-                .title("Java Functional Approach")
-                .description("A new course of Java")
-                .modality(ModalityType.ONLINE)
-                .start(LocalDate.of(2020, 03, 20))
-                .finish(LocalDate.of(2020, 03, 20))
-                .url("http://udemy.com")
-                .instructor("James Gosling")
-                .audience(AudienceType.ANYONE)
-                .build();
+        CourseRequest courseRequest = CourseRequestBuilder.defaultCourseRequest().build();
+        CourseResponse courseResponse = CourseResponseBuilder.defaultCourseResponse().build();
+        Course courseInput = CourseBuilder.defaultCourse().build();
+        Course courseOutput = CourseBuilder.defaultCourse().withId("xyz").build();
 
         //when
         when(courseRepository.insert(any(Course.class))).thenReturn(courseOutput);
@@ -97,7 +59,7 @@ class CourseServiceTest {
         //then
         assertThat(saved)
                 .isNotNull()
-                .isEqualTo(courseResponse);
+                .isEqualToComparingFieldByField(courseResponse);
 
     }
 
