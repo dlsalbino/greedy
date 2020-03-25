@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,7 +74,6 @@ class CourseServiceTest {
         //given
         String id = "507f191e810c19729de860ea";
         CourseResponse courseResponse = CourseResponseBuilder.defaultCourseResponse().build();
-
         Course course = CourseBuilder.defaultCourse().withId("507f191e810c19729de860ea").build();
 
         //when
@@ -94,9 +95,25 @@ class CourseServiceTest {
     @Test
     void getAll() {
 
+        //TODO: Fix it. Doesn't work. But why?
         //given
+        List<CourseResponse> courses = Arrays.asList(CourseResponseBuilder.defaultCourseResponse().build());
+        List<Course> courseEntities = Arrays.asList(CourseBuilder.defaultCourse().build());
+        CourseResponse courseResponse = CourseResponseBuilder.defaultCourseResponse().build();
+
         //when
+        when(courseRepository.getAll()).thenReturn(courseEntities);
+        when(mapper.mapper()).thenReturn(modelMapper);
+        when(modelMapper.map(any(Course.class), any())).thenReturn(courseResponse);
+        when(courseService.getAll()).thenReturn(courses);
+
+        List<CourseResponse> courseResponseList = courseService.getAll();
+
         //then
+        assertThat(courseResponseList)
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo(courses);
 
     }
 

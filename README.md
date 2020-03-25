@@ -9,11 +9,12 @@ REST API application using Hexagonal Architecture concepts.
  My intent with this project is, mainly, apply some knowledgments about [**Hexagonal Architecture**](https://softwarecampament.wordpress.com/portsadapters/) obtained through reading articles on web.
  The application is a CRUD REST API developed using Java language and the Spring Framework. Inside you'll found somethings like:
 
-- [x] ~~Hexagonal Architecture~~
+- [x] Hexagonal Architecture
 - [ ] S.O.L.I.D. Principles
-- [x] ~~REST API Best Practices~~
-- [x] ~~API Documentation with OpenAPI~~
-- [ ] Unit Tests with JUnit 5
+- [x] REST API Best Practices
+- [x] API Documentation with OpenAPI (Swagger)
+- [x] Unit Tests with JUnit 5 and Mockito
+- [x] [Test Data Builder Pattern](https://www.javacodegeeks.com/2014/06/test-data-builders-and-object-mother-another-look.html)
 - [ ] Security with JWT
 - [ ] Containerization with Docker
 
