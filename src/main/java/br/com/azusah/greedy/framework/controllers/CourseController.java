@@ -64,10 +64,14 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     CourseResponse getOne(@Parameter(description = "Id of the course to be obtained. Cannot be empty.", required = true)
                           @PathVariable final String id) {
+        log.info("Starting search for course with id: {}", id);
         CourseResponse courseResponse = courseServicePort.getOne(id);
         if (courseResponse != null) {
+            log.info("Ending search for course with id: {}", id);
+            log.debug("Course found: [{}]", courseResponse);
             return courseResponse;
         } else {
+            log.info("Ending. There is no course with id: {}", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course with id: " + id + " not found!");
         }
     }
@@ -82,7 +86,11 @@ public class CourseController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     List<CourseResponse> getAll() {
-        return courseServicePort.getAll();
+        log.info("Starting search for all courses.");
+        List<CourseResponse> courses = courseServicePort.getAll();
+        log.debug("You have a list with {} courses", courses.size());
+        log.info("Ending search for all courses.");
+        return courses;
     }
 
     @Operation(summary = "Updates a resource on database.",
@@ -98,7 +106,12 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     CourseResponse update(@Parameter(description = "Id of the course to be updated. Cannot be empty.", required = true)
                           @PathVariable final String id, @RequestBody final CourseRequest courseRequest) {
-        return courseServicePort.update(id, courseRequest);
+        log.info("Starting update for course with id: {}", id);
+        log.debug("Course to be updated: [{}]", courseRequest);
+        CourseResponse courseResponse = courseServicePort.update(id, courseRequest);
+        log.info("Ending update for course with id: {}", id);
+        log.debug("Course updated: [{}]", courseResponse);
+        return courseResponse;
     }
 
     @Operation(summary = "Returns a message of success with id of the deleted object.",
@@ -112,7 +125,9 @@ public class CourseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@Parameter(description = "Id of the course to be deleted. Cannot be empty.", required = true)
                 @PathVariable final String id) {
+        log.info("Starting exclude process for course with id: {}", id);
         courseServicePort.deleteInALogicalWay(id);
+        log.info("Ending exclude process for course with id: {}", id);
     }
 
 }
