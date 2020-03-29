@@ -9,6 +9,7 @@ import br.com.azusah.greedy.framework.controllers.resources.response.LocationRes
 import br.com.azusah.greedy.framework.mappers.Mapper;
 import br.com.azusah.greedy.framework.repositories.entities.Course;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
  * @since 2020.02.25
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService implements ICourseServicePort {
@@ -31,11 +33,15 @@ public class CourseService implements ICourseServicePort {
     @Override
     public CourseResponse insert(CourseRequest courseRequest) {
         //TODO: Improve the way of validation it.
+        log.info("Starting insert service for: {}.", courseRequest.getTitle());
         List<String> errors = insertionRuleValidator.validate(courseRequest);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
+            log.info("Insert can't be done, cause there are errors: [{}]", errors);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.toString());
-
+        }
         Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseRequest, Course.class));
+        log.info("Finishing insert service for: {} with id: {}.", savedCourse.getTitle(), savedCourse.getId());
+        log.debug("Saved course: [{}]", savedCourse);
         return modelMapper.mapper().map(savedCourse, CourseResponse.class);
     }
 

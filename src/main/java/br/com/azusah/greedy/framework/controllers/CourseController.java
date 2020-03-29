@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
  * @author Daniel L. B. Albino (daniel.albino@gmail.com)
  * @since 2020.02.25
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/courses")
 @RequiredArgsConstructor
@@ -43,7 +45,11 @@ public class CourseController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     CourseResponse insert(@Valid @RequestBody final CourseRequest courseRequest) {
-        return courseServicePort.insert(courseRequest);
+        log.info("Starting an insert for {}.", courseRequest.getTitle());
+        CourseResponse response = courseServicePort.insert(courseRequest);
+        log.info("Ending insert process {}.", courseRequest.getTitle());
+        log.debug("Course inserted: [{}]", response);
+        return response;
     }
 
     @Operation(summary = "Returns a resource saved on database.",
