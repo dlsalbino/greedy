@@ -16,10 +16,10 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenApi() {
         return new OpenAPI()
-                .components(new Components())
-                .info(new Info()
-                        .title("Greedy API")
-                        .description("An API for people greedy for knowledge."));
+            .components(new Components())
+            .info(new Info()
+                .title("Greedy API")
+                .description("An API for people greedy for knowledge."));
     }
 
 }

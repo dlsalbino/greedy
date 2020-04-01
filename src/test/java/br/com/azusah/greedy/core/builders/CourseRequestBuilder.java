@@ -14,15 +14,15 @@ public class CourseRequestBuilder extends CourseBase {
     public static CourseRequestBuilder defaultCourseRequest() {
         CourseRequestBuilder builder = new CourseRequestBuilder();
         builder.request = CourseRequest.builder()
-                .title(TITLE)
-                .description(DESCRIPTION)
-                .modality(MODALITY)
-                .start(START)
-                .finish(FINISH)
-                .url(URL)
-                .instructor(INSTRUCTOR)
-                .audience(AUDIENCE)
-                .build();
+            .title(TITLE)
+            .description(DESCRIPTION)
+            .modality(MODALITY)
+            .start(START)
+            .finish(FINISH)
+            .url(URL)
+            .instructor(INSTRUCTOR)
+            .audience(AUDIENCE)
+            .build();
         return builder;
     }
 

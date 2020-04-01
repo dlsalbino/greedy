@@ -16,15 +16,15 @@ public class CourseBuilder extends CourseBase {
     public static CourseBuilder defaultCourse() {
         CourseBuilder builder = new CourseBuilder();
         builder.course = Course.builder()
-                .title(TITLE)
-                .description(DESCRIPTION)
-                .modality(ModalityType.ONLINE)
-                .start(START)
-                .finish(FINISH)
-                .url(URL)
-                .instructor(INSTRUCTOR)
-                .audience(AudienceType.ANYONE)
-                .build();
+            .title(TITLE)
+            .description(DESCRIPTION)
+            .modality(ModalityType.ONLINE)
+            .start(START)
+            .finish(FINISH)
+            .url(URL)
+            .instructor(INSTRUCTOR)
+            .audience(AudienceType.ANYONE)
+            .build();
         return builder;
     }
 

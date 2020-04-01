@@ -14,16 +14,16 @@ public class CourseResponseBuilder extends CourseBase {
     public static CourseResponseBuilder defaultCourseResponse() {
         CourseResponseBuilder builder = new CourseResponseBuilder();
         builder.response = CourseResponse.builder()
-                .id(ID)
-                .title(TITLE)
-                .description(DESCRIPTION)
-                .modality(MODALITY)
-                .start(START)
-                .finish(FINISH)
-                .url(URL)
-                .instructor(INSTRUCTOR)
-                .audience(AUDIENCE)
-                .build();
+            .id(ID)
+            .title(TITLE)
+            .description(DESCRIPTION)
+            .modality(MODALITY)
+            .start(START)
+            .finish(FINISH)
+            .url(URL)
+            .instructor(INSTRUCTOR)
+            .audience(AUDIENCE)
+            .build();
         return builder;
     }
 

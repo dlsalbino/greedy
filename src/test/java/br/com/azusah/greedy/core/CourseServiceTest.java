@@ -63,8 +63,8 @@ class CourseServiceTest {
 
         //then
         assertThat(saved)
-                .isNotNull()
-                .isEqualToComparingFieldByField(courseResponse);
+            .isNotNull()
+            .isEqualToComparingFieldByField(courseResponse);
 
     }
 
@@ -86,9 +86,9 @@ class CourseServiceTest {
 
         //then
         assertThat(courseFound)
-                .isNotNull()
-                .isInstanceOf(CourseResponse.class)
-                .isEqualToComparingFieldByField(courseResponse);
+            .isNotNull()
+            .isInstanceOf(CourseResponse.class)
+            .isEqualToComparingFieldByField(courseResponse);
 
     }
 
@@ -111,9 +111,9 @@ class CourseServiceTest {
 
         //then
         assertThat(courseResponseList)
-                .isNotNull()
-                .isNotEmpty()
-                .isEqualTo(courses);
+            .isNotNull()
+            .isNotEmpty()
+            .isEqualTo(courses);
 
     }
 

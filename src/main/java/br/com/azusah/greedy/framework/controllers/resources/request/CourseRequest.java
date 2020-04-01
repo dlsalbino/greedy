@@ -24,64 +24,64 @@ import java.time.LocalDate;
 public class CourseRequest {
 
     @Schema(description = "The name of the course.",
-            example = "Spring Boot with OpenApi Documentation. :-P",
-            required = true
+        example = "Spring Boot with OpenApi Documentation. :-P",
+        required = true
     )
     @NotBlank
     @Size(min = 3)
     private String title;
 
     @Schema(description = "The way how this course will be offered.",
-            example = "PRESENTIAL",
-            required = true
+        example = "PRESENTIAL",
+        required = true
     )
     @NotBlank
     private String modality;
 
     @Schema(description = "Soon description about the course",
-            example = "The course will teach you everything about nothing.",
-            required = false
+        example = "The course will teach you everything about nothing.",
+        required = false
     )
     private String description;
 
     @Schema(description = "Date when the course starts",
-            example = "2020-02-26",
-            required = true
+        example = "2020-02-26",
+        required = true
     )
     @Future
     private LocalDate start;
 
     @Schema(description = "Date when the course ends",
-            example = "2020-02-26",
-            required = true
+        example = "2020-02-26",
+        required = true
     )
     @Future
     private LocalDate finish;
 
     @Schema(description = "The instructor's name(s).",
-            example = "Qui-Gon Jinn, Obi Wan Kenobi, Mace Windu",
-            required = true
+        example = "Qui-Gon Jinn, Obi Wan Kenobi, Mace Windu",
+        required = true
     )
     @NotBlank
     private String instructor;
 
     @Schema(description = "For who is the course.",
-            example = "ANYONE",
-            required = true
+        example = "ANYONE",
+        required = true
     )
     @NotBlank
     private String audience;
 
     @Schema(description = "For PRESENTIAL courses, the place where will happen.",
-            example = "A location resource.",
-            required = true
+        example = "A location resource.",
+        required = true
     )
     @Valid
     private LocationRequest location;
 
     @Schema(description = "For ONLINE courses, the URL where it can be found.",
-            example = "http://udemy.com/id-of-the-course",
-            required = true
+        example = "http://udemy.com/id-of-the-course",
+        required = true
     )
     @URL
     private String url;

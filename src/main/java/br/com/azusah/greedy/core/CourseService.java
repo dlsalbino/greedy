@@ -34,43 +34,41 @@ public class CourseService implements ICourseServicePort {
     public CourseResponse insert(CourseRequest courseRequest) {
         //TODO: Improve the way of validation it.
         log.info("Starting insert service for: {}.", courseRequest.getTitle());
-        List<String> errors = insertionRuleValidator.validate(courseRequest);
-        if (!errors.isEmpty()) {
-            log.info("Insert can't be done, cause there are errors: [{}]", errors);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.toString());
-        }
+        doValidateOf(courseRequest);
         Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseRequest, Course.class));
         log.info("Finishing insert service for: {} with id: {}.", savedCourse.getTitle(), savedCourse.getId());
         log.debug("Saved course: [{}]", savedCourse);
         return modelMapper.mapper().map(savedCourse, CourseResponse.class);
     }
 
+
     @Override
     public CourseResponse getOne(String id) {
         return courseRepository.getOne(id)
-                .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
-                .orElse(null);
+            .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
+            .orElse(null);
     }
 
     @Override
     public List<CourseResponse> getAll() {
         return courseRepository.getAll()
-                .stream()
-                .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
-                .collect(Collectors.toList());
+            .stream()
+            .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
+            .collect(Collectors.toList());
     }
 
     @Override
     public CourseResponse update(String id, CourseRequest courseRequest) {
+        log.info("Starting update service for: {}.", courseRequest.getTitle());
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
         }
 
+        doValidateOf(courseRequest);
         CourseResponse courseFound = getOne(id);
-
         if (courseFound == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Course with id: '" + id + "' was not found!");
+                "Course with id: '" + id + "' was not found!");
         }
 
         courseFound.setTitle(courseRequest.getTitle());
@@ -84,6 +82,8 @@ public class CourseService implements ICourseServicePort {
         courseFound.setUrl(courseRequest.getUrl());
 
         Course updatedCourse = courseRepository.update(modelMapper.mapper().map(courseFound, Course.class));
+        log.info("Finishing update service for: {} with id: {}.", updatedCourse.getTitle(), updatedCourse.getId());
+        log.debug("Updated course: [{}]", updatedCourse);
         return modelMapper.mapper().map(updatedCourse, CourseResponse.class);
     }
 
@@ -94,18 +94,24 @@ public class CourseService implements ICourseServicePort {
         }
 
         courseRepository.getOne(id)
-                .map(c -> {
-                    if (!c.isActive())
-                        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Course with id: '" + id + "' is already deleted!");
-
-                    c.setActive(false);
-                    courseRepository.update(c);
-                    return c;
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Course with id: '" + id + "' was not found!"));
+            .map(c -> {
+                if (!c.isActive())
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Course with id: '" + id + "' is already deleted!");
+                c.setActive(false);
+                courseRepository.update(c);
+                return c;
+            })
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Course with id: '" + id + "' was not found!"));
 
     }
 
+    private void doValidateOf(CourseRequest courseRequest) {
+        List<String> errors = insertionRuleValidator.validate(courseRequest);
+        if (!errors.isEmpty()) {
+            log.info("Operation cannot be done, cause there are errors: [{}]", errors);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.toString());
+        }
+    }
 }

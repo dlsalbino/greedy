@@ -21,17 +21,17 @@ public class InsertionRuleValidator {
         List<String> errors = new ArrayList<>();
 
         if (course.getModality().equalsIgnoreCase(ModalityType.PRESENTIAL.toString())
-                && course.getLocation() == null) {
+            && course.getLocation() == null) {
             errors.add("Presential courses needs a location");
         }
 
         if (course.getModality().equalsIgnoreCase(ModalityType.ONLINE.toString())
-                && course.getUrl() == null) {
+            && course.getUrl() == null) {
             errors.add("Online courses needs a url");
         }
 
         if (course.getModality().equalsIgnoreCase(ModalityType.ONLINE.toString())
-                && course.getLocation() != null) {
+            && course.getLocation() != null) {
             errors.add("Online courses cannot have an location");
         }
 
