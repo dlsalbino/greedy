@@ -105,7 +105,7 @@ public class CourseController {
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     CourseResponse update(@Parameter(description = "Id of the course to be updated. Cannot be empty.", required = true)
-                          @PathVariable final String id, @RequestBody final CourseRequest courseRequest) {
+                          @PathVariable final String id, @Valid @RequestBody final CourseRequest courseRequest) {
         log.info("Starting update for course with id: {}", id);
         log.debug("Course to be updated: [{}]", courseRequest);
         CourseResponse courseResponse = courseServicePort.update(id, courseRequest);

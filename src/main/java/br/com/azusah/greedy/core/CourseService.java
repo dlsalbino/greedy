@@ -31,8 +31,7 @@ public class CourseService implements ICourseServicePort {
     private final InsertionRuleValidator insertionRuleValidator;
 
     @Override
-    public CourseResponse insert(CourseRequest courseRequest) {
-        //TODO: Improve the way of validation it.
+    public CourseResponse insert(final CourseRequest courseRequest) {
         log.info("Starting insert service for: {}.", courseRequest.getTitle());
         doValidateOf(courseRequest);
         Course savedCourse = courseRepository.insert(modelMapper.mapper().map(courseRequest, Course.class));
@@ -43,7 +42,7 @@ public class CourseService implements ICourseServicePort {
 
 
     @Override
-    public CourseResponse getOne(String id) {
+    public CourseResponse getOne(final String id) {
         return courseRepository.getOne(id)
             .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
             .orElse(null);
@@ -58,7 +57,7 @@ public class CourseService implements ICourseServicePort {
     }
 
     @Override
-    public CourseResponse update(String id, CourseRequest courseRequest) {
+    public CourseResponse update(final String id, final CourseRequest courseRequest) {
         log.info("Starting update service for: {}.", courseRequest.getTitle());
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
@@ -88,7 +87,7 @@ public class CourseService implements ICourseServicePort {
     }
 
     @Override
-    public void deleteInALogicalWay(String id) {
+    public void deleteInALogicalWay(final String id) {
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must provide a valid 'id'!");
         }
@@ -107,7 +106,8 @@ public class CourseService implements ICourseServicePort {
 
     }
 
-    private void doValidateOf(CourseRequest courseRequest) {
+    private void doValidateOf(final CourseRequest courseRequest) {
+        //TODO: Improve the way of validation it.
         List<String> errors = insertionRuleValidator.validate(courseRequest);
         if (!errors.isEmpty()) {
             log.info("Operation cannot be done, cause there are errors: [{}]", errors);
