@@ -44,16 +44,16 @@ public class CourseService implements ICourseServicePort {
     @Override
     public CourseResponse getOne(final String id) {
         return courseRepository.getOne(id)
-            .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
-            .orElse(null);
+                .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
+                .orElse(null);
     }
 
     @Override
     public List<CourseResponse> getAll() {
         return courseRepository.getAll()
-            .stream()
-            .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
-            .collect(Collectors.toList());
+                .stream()
+                .map(c -> modelMapper.mapper().map(c, CourseResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CourseService implements ICourseServicePort {
         CourseResponse courseFound = getOne(id);
         if (courseFound == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Course with id: '" + id + "' was not found!");
+                    "Course with id: '" + id + "' was not found!");
         }
 
         courseFound.setTitle(courseRequest.getTitle());
@@ -93,16 +93,16 @@ public class CourseService implements ICourseServicePort {
         }
 
         courseRepository.getOne(id)
-            .map(c -> {
-                if (!c.isActive())
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Course with id: '" + id + "' is already deleted!");
-                c.setActive(false);
-                courseRepository.update(c);
-                return c;
-            })
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Course with id: '" + id + "' was not found!"));
+                .map(c -> {
+                    if (!c.isActive())
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Course with id: '" + id + "' is already deleted!");
+                    c.setActive(false);
+                    courseRepository.update(c);
+                    return c;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Course with id: '" + id + "' was not found!"));
 
     }
 
