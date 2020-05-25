@@ -130,4 +130,9 @@ public class CourseController {
         log.info("Ending exclude process for course with id: {}", id);
     }
 
+    @GetMapping(value = "test")
+    String getSomeResponse(){
+        return "It's Okay!";
+    }
+
 }
