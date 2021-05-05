@@ -1,4 +1,6 @@
-# greedy (W.I.P>)
+[![Build Status](https://travis-ci.com/dlsalbino/greedy.svg?branch=master)](https://travis-ci.com/dlsalbino/greedy)
+
+# greedy [STOPPED]
 REST API application using Hexagonal Architecture concepts.
 
 ## About the Application
